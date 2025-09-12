@@ -22,6 +22,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean package -DskipTests
+        working-directory: ./lab1_infsec/lab1/
 
       - name: Run SpotBugs
         run: mvn com.github.spotbugs:spotbugs-maven-plugin:check
