@@ -26,6 +26,8 @@ jobs:
 
       - name: Run SpotBugs
         run: mvn com.github.spotbugs:spotbugs-maven-plugin:check
+        working-directory: ./lab1
 
       - name: Run OWASP Dependency-Check
         run: mvn org.owasp:dependency-check-maven:check
+        working-directory: ./lab1
