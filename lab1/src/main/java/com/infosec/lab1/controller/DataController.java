@@ -20,7 +20,6 @@ import java.util.List;
 public class DataController {
 
     private UserRepository userRepository;
-
     private DataRepository dataRepository;
 
     @GetMapping("/data")
