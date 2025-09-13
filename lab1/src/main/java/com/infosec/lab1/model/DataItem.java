@@ -20,13 +20,13 @@ public class DataItem {
     @NotBlank(message = "Title cannot be empty")
     @Size(max = 100, message = "Title cannot exceed 100 characters")
     @Pattern(regexp = "^[A-Za-zА-Яа-яЁё ]+$", message = "Title can only contain letters and spaces")
-    public String title;
+    private String title;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-    public User owner;
+    private User owner;
 
     @NotBlank(message = "Content cannot be empty")
     @Size(max = 1000, message = "Content cannot exceed 1000 characters")
-    public String content;
+    private String content;
 }
