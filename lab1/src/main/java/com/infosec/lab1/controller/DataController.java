@@ -54,8 +54,8 @@ public class DataController {
 
         DataItem item = new DataItem();
         item.setOwner(username);
-        item.setTitle(req.title);
-        item.setContent(req.content);
+        item.setTitle(req.getTitle());
+        item.setContent(req.getContent());
 
         DataItem saved = dataRepository.save(item);
         log.info("Item was created successfully for user: " + username);

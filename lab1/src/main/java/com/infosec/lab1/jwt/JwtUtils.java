@@ -2,6 +2,7 @@ package com.infosec.lab1.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +13,17 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final long expirationMs;
+    @Value("${app.jwt.secret}")
+    private String secret;
 
-    private final Key key;
+    @Value("${app.jwt.expiration}")
+    private long expirationMs;
 
-    public JwtUtils(@Value("${app.jwt.secret}") String secret,
-                    @Value("${app.jwt.expiration}") long expirationMs) {
-        this.expirationMs = expirationMs;
-        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(String username) {

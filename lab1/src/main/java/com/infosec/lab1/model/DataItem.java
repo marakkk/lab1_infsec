@@ -16,13 +16,13 @@ public class DataItem {
     private Long id;
 
     @NotBlank
-    public String title;
+    private String title;
 
     @NotBlank
-    public String owner;
+    private String owner;
 
     @NotBlank
-    public String content;
+    private String content;
 
 
 }
