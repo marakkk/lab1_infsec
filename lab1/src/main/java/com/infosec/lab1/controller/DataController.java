@@ -1,5 +1,6 @@
 package com.infosec.lab1.controller;
 
+import com.infosec.lab1.dto.DataItemDto;
 import com.infosec.lab1.model.DataItem;
 import com.infosec.lab1.dto.UserDto;
 import com.infosec.lab1.model.User;
@@ -39,26 +40,33 @@ public class DataController {
     }
 
     @PostMapping("/data")
-    public ResponseEntity<DataItem> createData(@Valid @RequestBody DataItem req,
-                                               HttpServletRequest request) {
+    public ResponseEntity<DataItemDto> createData(@Valid @RequestBody DataItemDto dto,
+                                                  HttpServletRequest request) {
         String username = (String) request.getAttribute("username");
         if (username == null) {
             log.error("User not entered");
             return ResponseEntity.status(401).build();
         }
 
-        if (!username.equals(req.getOwner())) {
-            log.error("Owner in request does not match authenticated user: {}", username);
-            return ResponseEntity.status(403).body(null);
-        }
+        User owner = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         DataItem item = new DataItem();
-        item.setOwner(username);
-        item.setTitle(req.getTitle());
-        item.setContent(req.getContent());
+        item.setOwner(owner);
+        item.setTitle(dto.getTitle());
+        item.setContent(dto.getContent());
 
         DataItem saved = dataRepository.save(item);
-        log.info("Item was created successfully for user: " + username);
-        return ResponseEntity.ok(saved);
+
+        DataItemDto responseDto = new DataItemDto(
+                saved.getId(),
+                saved.getTitle(),
+                saved.getOwner().getUsername(),
+                saved.getContent()
+        );
+
+        return ResponseEntity.ok(responseDto);
+
     }
+
 }
