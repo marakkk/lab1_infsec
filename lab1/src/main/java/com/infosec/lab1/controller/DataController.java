@@ -39,7 +39,7 @@ public class DataController {
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/data")
+    @PostMapping("/post")
     public ResponseEntity<DataItemDto> createData(@Valid @RequestBody DataItemDto dto,
                                                   HttpServletRequest request) {
         String username = (String) request.getAttribute("username");
